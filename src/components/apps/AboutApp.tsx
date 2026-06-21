@@ -23,9 +23,14 @@ const animationStyles = `
 `;
 
 export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutAppProps) {
+  const defaultVersion = 'v3.5.6';
+  const defaultDownloadUrl = downloadUrl && downloadUrl.includes('/releases/download/') 
+    ? downloadUrl 
+    : 'https://github.com/SehajveerSingh2005/bloom/releases/download/v3.5.6/bloom_3.5.6_x64_en-US.msi';
+
   const [releaseInfo, setReleaseInfo] = useState({
-    version: 'v3.1.2',
-    downloadUrl: downloadUrl,
+    version: defaultVersion,
+    downloadUrl: defaultDownloadUrl,
   });
 
   useEffect(() => {
@@ -33,21 +38,22 @@ export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutA
       .then((res) => res.json())
       .then((data) => {
         if (data && data.tag_name) {
-          // Find the direct setup file (like .exe or .msi installer)
           const asset = data.assets?.find((a: any) =>
             a.name.endsWith('.exe') || a.name.endsWith('.msi') || a.name.endsWith('.zip')
-          ) || data.assets?.[0];
+          );
+          const versionStr = data.tag_name;
+          const rawVer = versionStr.replace('v', '');
 
           setReleaseInfo({
-            version: data.tag_name,
-            downloadUrl: asset ? asset.browser_download_url : downloadUrl,
+            version: versionStr,
+            downloadUrl: asset ? asset.browser_download_url : `https://github.com/SehajveerSingh2005/bloom/releases/download/${versionStr}/bloom_${rawVer}_x64_en-US.msi`,
           });
         }
       })
       .catch(() => {
-        // Silently fall back to hardcoded defaults
+        // Keep defaults
       });
-  }, [downloadUrl]);
+  }, []);
 
   return (
     <div className="relative h-full w-full bg-transparent text-white flex flex-col justify-between p-7 select-none overflow-hidden font-sans">
@@ -75,7 +81,7 @@ export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutA
       <div className="relative z-10 flex justify-between items-start">
         <div className="flex items-center gap-2">
           <img src="/bloom.png" alt="logo" className="w-[18px] h-[18px] object-contain" />
-          <span className="text-[10px] uppercase tracking-widest font-bold text-white/40">bloom shell</span>
+          <span className="text-[10px] uppercase tracking-widest font-bold text-white/40">bloom</span>
         </div>
         <div className="flex items-center gap-1.5 bg-white/[0.04] border border-white/[0.06] rounded-full px-2.5 py-0.75 shadow-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -83,34 +89,55 @@ export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutA
         </div>
       </div>
 
-      {/* Middle: Giant Editorial Display Typography & Tech highlights */}
-      <div className="relative z-10 my-auto py-2">
+      {/* Middle: Giant Editorial Display Typography & Tech Highlights */}
+      <div className="relative z-10 my-auto py-2 text-left">
+        <span className="text-[9px] tracking-[0.25em] font-extrabold text-[#fa243c] uppercase block mb-1">
+          EXCLUSIVE WINDOWS DESKTOP ENVIRONMENT
+        </span>
         <h1
-          className="text-[60px] font-black tracking-tighter leading-[0.85] text-white uppercase"
+          className="text-[48px] font-black tracking-tighter leading-[0.85] text-white uppercase"
           style={{
             fontFamily: 'var(--font-display)',
             letterSpacing: '-0.05em'
           }}
         >
-          BLOOM
+          YOUR WINDOWS,<br />ALIVE.
         </h1>
-        <p className="text-[12px] font-medium tracking-tight text-white/50 mt-2 max-w-[340px] leading-snug">
-          A desktop companion that moves like thought — fluid, responsive, and unapologetically beautiful.
-        </p>
-
-        {/* Tech Highlights Grid (Vibe reference from README) */}
-        <div className="grid grid-cols-3 gap-3 mt-5">
-          <div className="bg-white/[0.02] border border-white/[0.04] rounded-xl p-3 flex flex-col justify-between hover:bg-white/[0.04] transition-all">
-            <span className="block text-[8.5px] font-extrabold text-[#fa243c] tracking-wider uppercase mb-1">RUST ENGINE</span>
-            <p className="text-[9px] leading-[1.3] text-white/50">Tauri v2 core running under 10MB RAM with native window event hooks.</p>
-          </div>
-          <div className="bg-white/[0.02] border border-white/[0.04] rounded-xl p-3 flex flex-col justify-between hover:bg-white/[0.04] transition-all">
-            <span className="block text-[8.5px] font-extrabold text-[#fa243c] tracking-wider uppercase mb-1">SPRING PHYSICS</span>
-            <p className="text-[9px] leading-[1.3] text-white/50">Every UI transition behaves as a physics simulation with spring-mass systems.</p>
-          </div>
-          <div className="bg-white/[0.02] border border-white/[0.04] rounded-xl p-3 flex flex-col justify-between hover:bg-white/[0.04] transition-all">
-            <span className="block text-[8.5px] font-extrabold text-[#fa243c] tracking-wider uppercase mb-1">SHELL INTEGRATE</span>
-            <p className="text-[9px] leading-[1.3] text-white/50">COM interfaces control endpoints, system tray polling, and cursor tracking.</p>
+        
+        {/* Cool, bold content instead of small text buzzwords */}
+        <div className="mt-5 space-y-4">
+          <p className="text-[11px] leading-relaxed text-white/70 font-medium max-w-[420px]">
+            Bloom is a ground-up reconstruction of the Windows desktop experience. Operating as a low-level shell override, it silences the legacy taskbar and binds context-aware desktop elements with hardware-level hooks.
+          </p>
+          
+          <div className="border-t border-white/10 pt-4">
+            <span className="text-[8.5px] tracking-widest font-black text-white/30 block mb-2.5 uppercase">SYSTEM ARCHITECTURE</span>
+            <div className="grid grid-cols-2 gap-x-5 gap-y-3">
+              <div>
+                <span className="text-[10px] text-white font-semibold block">Active Shell Override</span>
+                <p className="text-[9px] leading-[1.3] text-white/40 mt-0.5">
+                  Suppresses the explorer taskbar using Win32 window management hooks, replacing it with an reactive, clickable app dock.
+                </p>
+              </div>
+              <div>
+                <span className="text-[10px] text-white font-semibold block">Hardware-Direct WASAPI</span>
+                <p className="text-[9px] leading-[1.3] text-white/40 mt-0.5">
+                  Captures system audio loopback feeds at the kernel level to drive the spring-physics 5-bar hardware visualizer.
+                </p>
+              </div>
+              <div>
+                <span className="text-[10px] text-white font-semibold block">Spring-Loaded Simulation</span>
+                <p className="text-[9px] leading-[1.3] text-white/40 mt-0.5">
+                  Motion designed as a physical mass-spring-damper model, executing animations dynamically rather than relying on easing curves.
+                </p>
+              </div>
+              <div>
+                <span className="text-[10px] text-white font-semibold block">Coordinated Webviews</span>
+                <p className="text-[9px] leading-[1.3] text-white/40 mt-0.5">
+                  Tauri v2 runs 5 independent, sandboxed process layers communicating over IPC pipelines while keeping idle CPU usage near zero.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

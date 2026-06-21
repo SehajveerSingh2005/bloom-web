@@ -98,46 +98,63 @@ export default function Window({
           {/* Header/Titlebar */}
           <div 
             onPointerDown={(e) => dragControls.start(e)}
-            className="window-titlebar flex items-center justify-between px-4 py-3 bg-white/[0.02] border-b border-white/[0.05] cursor-grab active:cursor-grabbing select-none"
+            className="window-titlebar flex items-center justify-between pl-4 pr-1 py-1.5 bg-white/[0.02] border-b border-white/[0.05] cursor-grab active:cursor-grabbing select-none"
           >
-            {/* Control buttons */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onClose();
-                }}
-                className="w-3 h-3 rounded-full bg-[#ff5f56] hover:bg-[#ff3b30] flex items-center justify-center border border-black/10 transition-colors group relative"
-                title="Close"
-              >
-                <span className="text-[7px] text-black/50 opacity-0 group-hover:opacity-100 font-bold select-none absolute">×</span>
-              </button>
+            {/* Title on the left */}
+            <span className="text-[11px] font-semibold tracking-wide text-white/55 select-none">
+              {title}
+            </span>
+
+            {/* Windows-style Control buttons on the right */}
+            <div className="flex items-center">
+              {/* Minimize */}
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   onMinimize();
                 }}
-                className="w-3 h-3 rounded-full bg-[#ffbd2e] hover:bg-[#ff9500] flex items-center justify-center border border-black/10 transition-colors group relative"
+                className="w-10 h-8 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors"
                 title="Minimize"
               >
-                <span className="text-[7px] text-black/50 opacity-0 group-hover:opacity-100 font-bold select-none absolute">−</span>
+                <svg width="10" height="1" viewBox="0 0 10 1" fill="none" stroke="currentColor" strokeWidth="1.2">
+                  <line x1="0" y1="0.5" x2="10" y2="0.5" />
+                </svg>
               </button>
+
+              {/* Maximize / Restore */}
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsMaximized(!isMaximized);
                 }}
-                className="w-3 h-3 rounded-full bg-[#27c93f] hover:bg-[#34c759] flex items-center justify-center border border-black/10 transition-colors group relative"
+                className="w-10 h-8 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors"
                 title={isMaximized ? "Restore" : "Maximize"}
               >
-                <span className="text-[5px] text-black/50 opacity-0 group-hover:opacity-100 font-bold select-none absolute">⤢</span>
+                {isMaximized ? (
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.2">
+                    <path d="M2.5 2.5V0.5H9.5V7.5H7.5M0.5 2.5H7.5V9.5H0.5V2.5Z" />
+                  </svg>
+                ) : (
+                  <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.2">
+                    <rect x="0.5" y="0.5" width="9" height="9" />
+                  </svg>
+                )}
+              </button>
+
+              {/* Close */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose();
+                }}
+                className="w-10 h-8 flex items-center justify-center text-white/40 hover:text-white hover:bg-[#ff3b30] transition-colors"
+                title="Close"
+              >
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.2">
+                  <path d="M1 1L9 9M9 1L1 9" />
+                </svg>
               </button>
             </div>
-
-            {/* Title */}
-            <span className="text-[12px] font-medium tracking-wide text-white/50 text-center flex-1 pr-14 select-none">
-              {title}
-            </span>
           </div>
 
           {/* Window Client Area */}
