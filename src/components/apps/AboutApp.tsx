@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Download } from 'lucide-react';
 
 interface AboutAppProps {
@@ -22,6 +23,32 @@ const animationStyles = `
 `;
 
 export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutAppProps) {
+  const [releaseInfo, setReleaseInfo] = useState({
+    version: 'v3.1.2',
+    downloadUrl: downloadUrl,
+  });
+
+  useEffect(() => {
+    fetch('https://api.github.com/repos/SehajveerSingh2005/bloom/releases/latest')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.tag_name) {
+          // Find the direct setup file (like .exe or .msi installer)
+          const asset = data.assets?.find((a: any) =>
+            a.name.endsWith('.exe') || a.name.endsWith('.msi') || a.name.endsWith('.zip')
+          ) || data.assets?.[0];
+
+          setReleaseInfo({
+            version: data.tag_name,
+            downloadUrl: asset ? asset.browser_download_url : downloadUrl,
+          });
+        }
+      })
+      .catch(() => {
+        // Silently fall back to hardcoded defaults
+      });
+  }, [downloadUrl]);
+
   return (
     <div className="relative h-full w-full bg-transparent text-white flex flex-col justify-between p-7 select-none overflow-hidden font-sans">
       <style>{animationStyles}</style>
@@ -44,22 +71,22 @@ export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutA
         />
       </div>
 
-      {/* Top Header: Brand Title & Small Meta */}
+      {/* Top Header: Brand Title & Dynamic Version Meta */}
       <div className="relative z-10 flex justify-between items-start">
         <div className="flex items-center gap-2">
           <img src="/bloom.png" alt="logo" className="w-[18px] h-[18px] object-contain" />
           <span className="text-[10px] uppercase tracking-widest font-bold text-white/40">bloom shell</span>
         </div>
-        <div className="flex items-center gap-1.5 bg-white/[0.04] border border-white/[0.06] rounded-full px-2.5 py-0.75">
+        <div className="flex items-center gap-1.5 bg-white/[0.04] border border-white/[0.06] rounded-full px-2.5 py-0.75 shadow-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-[8.5px] font-bold text-white/50 font-mono">v2.0.4</span>
+          <span className="text-[8.5px] font-bold text-white/70 font-mono">{releaseInfo.version}</span>
         </div>
       </div>
 
-      {/* Middle: Giant Editorial Display Typography */}
+      {/* Middle: Giant Editorial Display Typography & Tech highlights */}
       <div className="relative z-10 my-auto py-2">
         <h1
-          className="text-[64px] font-black tracking-tighter leading-[0.85] text-white uppercase"
+          className="text-[60px] font-black tracking-tighter leading-[0.85] text-white uppercase"
           style={{
             fontFamily: 'var(--font-display)',
             letterSpacing: '-0.05em'
@@ -67,23 +94,23 @@ export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutA
         >
           BLOOM
         </h1>
-        <p className="text-[13px] font-medium tracking-tight text-white/50 mt-2 max-w-[280px] leading-snug">
-          Pure aesthetics. Refined overlays. Near-zero footprint.
+        <p className="text-[12px] font-medium tracking-tight text-white/50 mt-2 max-w-[340px] leading-snug">
+          A desktop companion that moves like thought — fluid, responsive, and unapologetically beautiful.
         </p>
 
-        {/* Minimal Specs Bar */}
-        <div className="flex gap-5 mt-6 border-l-[1.5px] border-white/10 pl-3.5">
-          <div>
-            <span className="block text-[11px] font-mono font-bold text-white/90">0.01%</span>
-            <span className="text-[8px] text-white/35 uppercase font-semibold tracking-wider">CPU OVERHEAD</span>
+        {/* Tech Highlights Grid (Vibe reference from README) */}
+        <div className="grid grid-cols-3 gap-3 mt-5">
+          <div className="bg-white/[0.02] border border-white/[0.04] rounded-xl p-3 flex flex-col justify-between hover:bg-white/[0.04] transition-all">
+            <span className="block text-[8.5px] font-extrabold text-[#fa243c] tracking-wider uppercase mb-1">RUST ENGINE</span>
+            <p className="text-[9px] leading-[1.3] text-white/50">Tauri v2 core running under 10MB RAM with native window event hooks.</p>
           </div>
-          <div>
-            <span className="block text-[11px] font-mono font-bold text-white/90">&lt; 9.4 MB</span>
-            <span className="text-[8px] text-white/35 uppercase font-semibold tracking-wider">RAM FOOTPRINT</span>
+          <div className="bg-white/[0.02] border border-white/[0.04] rounded-xl p-3 flex flex-col justify-between hover:bg-white/[0.04] transition-all">
+            <span className="block text-[8.5px] font-extrabold text-[#fa243c] tracking-wider uppercase mb-1">SPRING PHYSICS</span>
+            <p className="text-[9px] leading-[1.3] text-white/50">Every UI transition behaves as a physics simulation with spring-mass systems.</p>
           </div>
-          <div>
-            <span className="block text-[11px] font-mono font-bold text-white/90">60 FPS</span>
-            <span className="text-[8px] text-white/35 uppercase font-semibold tracking-wider">RENDER TARGET</span>
+          <div className="bg-white/[0.02] border border-white/[0.04] rounded-xl p-3 flex flex-col justify-between hover:bg-white/[0.04] transition-all">
+            <span className="block text-[8.5px] font-extrabold text-[#fa243c] tracking-wider uppercase mb-1">SHELL INTEGRATE</span>
+            <p className="text-[9px] leading-[1.3] text-white/50">COM interfaces control endpoints, system tray polling, and cursor tracking.</p>
           </div>
         </div>
       </div>
@@ -91,7 +118,7 @@ export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutA
       {/* Bottom: Minimalist pill actions */}
       <div className="relative z-10 flex gap-2.5 mt-auto">
         <a
-          href={downloadUrl}
+          href={releaseInfo.downloadUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="py-2.5 px-5 rounded-full flex items-center gap-1.5 text-[11px] font-extrabold text-black transition-all hover:brightness-105 active:scale-[0.98] cursor-pointer shadow-lg"

@@ -121,7 +121,7 @@ const Dock = memo(function Dock({
 
   return (
     <div
-      className="absolute bottom-0 left-0 right-0 h-20 flex justify-center items-end z-[90] pb-2 pointer-events-none"
+      className="absolute bottom-0 left-0 right-0 h-20 flex justify-center items-end z-[90] pb-0 pointer-events-none"
     >
       <motion.div
         ref={dockRef}
