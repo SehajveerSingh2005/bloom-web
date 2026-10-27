@@ -90,7 +90,7 @@ export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutA
               italic
               textColor="#ffffff"
               strokeColor="#5227FF"
-              minFontSize={48}
+              minFontSize={120}
               invertWeight
             />
           </div>
