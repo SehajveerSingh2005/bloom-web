@@ -79,7 +79,7 @@ export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutA
           </div>
 
           {/* Title */}
-          <div className="w-full max-w-[220px] h-[88px] shrink-0 mt-2">
+          <div className="w-full h-[120px] shrink-0 mt-2">
             <TextPressure
               text="BLOOM"
               flex
