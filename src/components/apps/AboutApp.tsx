@@ -54,7 +54,7 @@ export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutA
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col h-full px-7 pt-5 pb-5">
+      <div className="relative z-10 flex flex-col min-h-full px-7 py-4">
         {/* Top bar */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -68,18 +68,18 @@ export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutA
         </div>
 
         {/* Hero */}
-        <div className="flex-1 flex flex-col items-center justify-center -mt-6">
+        <div className="flex-1 flex flex-col items-center justify-center py-3">
           {/* Big icon — rotates on hover */}
           <div className="group cursor-default">
             <img
               src="/bloom.png"
               alt="Bloom"
-              className="w-20 h-20 object-contain transition-transform duration-500 ease-out group-hover:rotate-180"
+              className="w-12 h-12 object-contain transition-transform duration-500 ease-out group-hover:rotate-180"
             />
           </div>
 
           {/* Title */}
-          <div className="w-full mt-4 min-h-[60px]">
+          <div className="w-full max-w-[220px] h-[88px] shrink-0 mt-2">
             <TextPressure
               text="BLOOM"
               flex
@@ -102,13 +102,13 @@ export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutA
           </p>
 
           {/* Tagline */}
-          <p className="text-[10px] text-white/25 mt-3 max-w-[280px] text-center leading-relaxed">
+          <p className="text-[10px] text-white/45 mt-2 max-w-[340px] text-center leading-relaxed">
             A lightweight desktop shell that silences the Windows taskbar and adds a spring-animated notch, a macOS-style dock, and volume/brightness overlays — all under 10MB idle RAM.
           </p>
         </div>
 
         {/* Bottom actions */}
-        <div className="flex gap-2.5 mt-auto">
+        <div className="flex shrink-0 gap-2.5 mt-auto">
           <a
             href={releaseInfo.downloadUrl}
             target="_blank"
@@ -132,17 +132,22 @@ export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutA
             <ArrowUpRight size={10} />
           </a>
         </div>
-        <a
-          href="https://buymeacoffee.com/sehaz"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="self-center shrink-0 flex items-center justify-center gap-2 min-h-11 mt-3 px-4 rounded-xl border border-white/10 bg-white/[0.03] text-[11px] font-semibold text-white/70 hover:text-[var(--coffee-accent)] hover:border-[var(--coffee-accent)] hover:bg-white/[0.06] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--coffee-accent)] transition-colors cursor-pointer"
-          style={{ "--coffee-accent": accentColor } as React.CSSProperties}
-        >
-          <Coffee size={14} aria-hidden="true" />
-          Buy me a coffee
-          <ArrowUpRight size={11} aria-hidden="true" />
-        </a>
+        <div className="shrink-0 flex flex-wrap items-center justify-between gap-3 mt-3 pt-3 border-t border-white/10">
+          <div>
+            <p className="text-[11px] font-semibold text-white/85">Help Bloom get signed.</p>
+            <p className="text-[10px] text-white/50 mt-1">Your coffee helps fund code signing.</p>
+          </div>
+          <a
+            href="https://buymeacoffee.com/sehaz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 inline-flex items-center justify-center gap-2 min-h-11 px-4 rounded-xl bg-[#FFDD00] text-[#201b00] text-[11px] font-bold shadow-[0_4px_16px_-6px_#ffdd0055] hover:bg-[#ffe733] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFDD00] transition-colors cursor-pointer"
+          >
+            <Coffee size={15} aria-hidden="true" />
+            Buy me a coffee
+            <ArrowUpRight size={11} aria-hidden="true" />
+          </a>
+        </div>
       </div>
     </div>
   );
