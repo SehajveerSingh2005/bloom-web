@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Download, ArrowUpRight } from 'lucide-react';
+import { Coffee, Download, ArrowUpRight } from 'lucide-react';
 import TextPressure from '../TextPressure';
 
 interface AboutAppProps {
@@ -132,6 +132,17 @@ export default function AboutApp({ githubUrl, downloadUrl, accentColor }: AboutA
             <ArrowUpRight size={10} />
           </a>
         </div>
+        <a
+          href="https://buymeacoffee.com/sehaz"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="self-center shrink-0 flex items-center justify-center gap-2 min-h-11 mt-3 px-4 rounded-xl border border-white/10 bg-white/[0.03] text-[11px] font-semibold text-white/70 hover:text-[var(--coffee-accent)] hover:border-[var(--coffee-accent)] hover:bg-white/[0.06] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--coffee-accent)] transition-colors cursor-pointer"
+          style={{ "--coffee-accent": accentColor } as React.CSSProperties}
+        >
+          <Coffee size={14} aria-hidden="true" />
+          Buy me a coffee
+          <ArrowUpRight size={11} aria-hidden="true" />
+        </a>
       </div>
     </div>
   );
