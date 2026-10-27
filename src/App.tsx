@@ -86,7 +86,7 @@ export default function App() {
         y: Math.max(12, Math.min(y, viewport.h - h - 80)),
       });
       return {
-        about: clamp(prev.about.x, prev.about.y, 500, 460),
+        about: clamp(prev.about.x, prev.about.y, 500, 500),
         music: clamp(prev.music.x, prev.music.y, 800, 520),
         terminal: clamp(prev.terminal.x, prev.terminal.y, 500, 320),
         settings: clamp(prev.settings.x, prev.settings.y, 520, 480),
@@ -201,7 +201,7 @@ export default function App() {
             onMinimize={() => handleMinimizeApp('about')}
             onFocus={() => setFocusedApp('about')}
             width={500}
-            height={460}
+            height={500}
             defaultPosition={positions.about}
             viewport={viewport}
           >
